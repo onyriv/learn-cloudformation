@@ -1,0 +1,85 @@
+name: CloudFormation Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# -------------------------------------------------------
+# Which lab to validate — change this as you progress
+# -------------------------------------------------------
+# env:
+#   CURRENT_LAB: "lab01-simple-template"
+#   TEMPLATE_FILE: "lab01-simple-template/stub.yaml"
+env:
+  CURRENT_LAB: "lab00-create-stack"
+  TEMPLATE_FILE: "lab00-create-stack/demo.yaml"
+
+permissions:
+  contents: read
+
+jobs:
+  # -----------------------------------------------------
+  # Job 1: cfn-lint — static analysis of the template
+  # -----------------------------------------------------
+  cfn-lint:
+    name: cfn-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install cfn-lint
+        run: pip install cfn-lint --quiet
+
+      - name: Run cfn-lint
+        run: |
+          echo "::group::Running cfn-lint on ${TEMPLATE_FILE}"
+          cfn-lint ${TEMPLATE_FILE}
+          echo "::endgroup::"
+
+  # -----------------------------------------------------
+  # Job 2: aws cloudformation validate-template
+  # -----------------------------------------------------
+  cfn-validate:
+    name: cfn-validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
+
+      - name: Validate template
+        run: |
+          echo "::group::Running aws cloudformation validate-template"
+          aws cloudformation validate-template \
+            --template-body file://${TEMPLATE_FILE}
+          echo "::endgroup::"
+
+  # -----------------------------------------------------
+  # Job 3: cfn-guard — policy-as-code evaluation
+  # -----------------------------------------------------
+  cfn-guard:
+    name: cfn-guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install cfn-guard
+        run: |
+          curl -sSL https://github.com/aws-cloudformation/cloudformation-guard/releases/latest/download/cfn-guard-v3-ubuntu-latest.tar.gz \
+            | sudo tar -xz -C /usr/local/bin/
+
+      - name: Run cfn-guard
+        run: |
+          echo "::group::Running cfn-guard"
+          cfn-guard validate \
+            -d ${TEMPLATE_FILE} \
+            -r cfn-guard/rules.guard \
+            --show-summary all
+          echo "::endgroup::"

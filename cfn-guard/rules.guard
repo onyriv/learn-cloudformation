@@ -1,0 +1,10 @@
+# cfn-guard/rules.guard
+# Baseline: every template must declare AWSTemplateFormatVersion and Description
+
+rule template_has_version {
+    AWSTemplateFormatVersion exists
+}
+
+rule template_has_description {
+    Description exists
+}
