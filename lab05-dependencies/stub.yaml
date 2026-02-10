@@ -9,9 +9,11 @@ Parameters:
   KeyName:
     Description: Key Pair name
     Type: AWS::EC2::KeyPair::KeyName
+    Default: alpaca-etf-momentum-v5-key
   VPC:
     Description: VPC to launch virtual server in
     Type: AWS::EC2::VPC::Id
+    Default: vpc-c5862ab8
   Subnet:
     Description: subnet to launch virtual server in
     Type: AWS::EC2::Subnet::Id
@@ -19,7 +21,7 @@ Parameters:
   URL:
     Description: URL for load testing
     Type: String
-    Default: http://widdix.net/
+    Default: http://widdix.net/orivri
 Resources:
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
