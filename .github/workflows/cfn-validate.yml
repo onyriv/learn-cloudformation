@@ -53,6 +53,10 @@ jobs:
 
       - name: Validate template
         run: |
+          if [[ "${CURRENT_LAB}" == "lab07-nested-stacks" ]]; then
+            echo "::notice::Skipping AWS validation for nested stacks (requires S3 access to external templates)"
+            exit 0
+          fi
           echo "::group::Running aws cloudformation validate-template"
           aws cloudformation validate-template \
             --template-body file://${TEMPLATE_FILE}

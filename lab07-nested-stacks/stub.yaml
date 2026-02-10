@@ -23,7 +23,7 @@ Resources:
   EC2Stack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://s3-eu-west-1.amazonaws.com/learn-cloudformation/lab07-nested-stacks/ec2-stack.json
+      TemplateURL: https://learn-cloudformation.s3.eu-west-1.amazonaws.com/lab07-nested-stacks/ec2-stack.json
       Parameters:
         KeyName: !Ref KeyName
         VPC: !Ref VPC
@@ -34,7 +34,7 @@ Resources:
   S3Stack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://s3-eu-west-1.amazonaws.com/learn-cloudformation/lab07-nested-stacks/s3-stack.json
+      TemplateURL: https://learn-cloudformation.s3.eu-west-1.amazonaws.com/lab07-nested-stacks/s3-stack.json
       Parameters:
         InstanceId: !GetAtt EC2Stack.Outputs.InstanceId
 
