@@ -10,8 +10,8 @@ on:
 # Which lab to validate — change this as you progress
 # -------------------------------------------------------
 env:
-  CURRENT_LAB: "lab06-mappings"
-  TEMPLATE_FILE: "lab06-mappings/stub.yaml"
+  CURRENT_LAB: "lab07-nested-stacks"
+  TEMPLATE_FILE: "lab07-nested-stacks/stub.yaml"
 
 permissions:
   contents: read

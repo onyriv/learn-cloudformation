@@ -5,20 +5,45 @@ Parameters:
   KeyName:
     Description: Key Pair name
     Type: AWS::EC2::KeyPair::KeyName
+    Default: alpaca-etf-momentum-v5-key
   VPC:
     Description: VPC to launch virtual server in
     Type: AWS::EC2::VPC::Id
+    Default: vpc-c5862ab8
   Subnet:
     Description: subnet to launch virtual server in
     Type: AWS::EC2::Subnet::Id
+    Default: subnet-6c65f50a
   URL:
     Description: URL for load testing
     Type: String
-    Default: http://widdix.net/
+    Default: http://widdix.net/orivri
 Resources:
-  # add stacks
-	# https://s3-eu-west-1.amazonaws.com/learn-cloudformation/lab07-nested-stacks/ec2-stack.json
-	# https://s3-eu-west-1.amazonaws.com/learn-cloudformation/lab07-nested-stacks/s3-stack.json
+  # EC2 nested stack - creates EC2 instance with security group
+  EC2Stack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3-eu-west-1.amazonaws.com/learn-cloudformation/lab07-nested-stacks/ec2-stack.json
+      Parameters:
+        KeyName: !Ref KeyName
+        VPC: !Ref VPC
+        Subnet: !Ref Subnet
+        URL: !Ref URL
+  
+  # S3 nested stack - creates S3 bucket, receives InstanceId from EC2Stack
+  S3Stack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3-eu-west-1.amazonaws.com/learn-cloudformation/lab07-nested-stacks/s3-stack.json
+      Parameters:
+        InstanceId: !GetAtt EC2Stack.Outputs.InstanceId
+
 Outputs:
-  # TODO add outputs
-	# from stack lab6-mappings (instance id and public IP address)
+  # Expose outputs from the EC2 nested stack
+  InstanceId:
+    Description: ID of virtual server from EC2 stack
+    Value: !GetAtt EC2Stack.Outputs.InstanceId
+  
+  PublicIPAddress:
+    Description: Public IP address of virtual server from EC2 stack
+    Value: !GetAtt EC2Stack.Outputs.PublicIPAddress
