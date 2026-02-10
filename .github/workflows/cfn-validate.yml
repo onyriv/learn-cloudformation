@@ -10,8 +10,8 @@ on:
 # Which lab to validate — change this as you progress
 # -------------------------------------------------------
 env:
-  CURRENT_LAB: "lab05-dependencies"
-  TEMPLATE_FILE: "lab05-dependencies/stub.yaml"
+  CURRENT_LAB: "lab06-mappings"
+  TEMPLATE_FILE: "lab06-mappings/stub.yaml"
 
 permissions:
   contents: read

@@ -16,16 +16,12 @@ Parameters:
     Type: String
     Default: http://widdix.net/
 Mappings:
-  # TODO add map between regions and AMIs
-	# ap-northeast-1 => ami-cbf90ecb
-	# ap-southeast-1 => ami-68d8e93a
-	# ap-southeast-2 => ami-fd9cecc7
-	# eu-central-1 => ami-a8221fb5
-	# eu-west-1 => ami-a10897d6
-	# sa-east-1 => ami-b52890a8
-	# us-east-1 => ami-1ecae776
-	# us-west-1 => ami-d114f295
-	# us-west-2 => ami-e7527ed7
+  # Map between regions and AMIs for Ubuntu
+  RegionAMIMap:
+    us-east-1:
+      Ubuntu: ami-0b6c6ebed2801a5cb
+    us-east-2:
+      Ubuntu: ami-06e3c045d79fd65d9
 Resources:
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -40,7 +36,7 @@ Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId: !FindInMap [RegionAMIMap, !Ref 'AWS::Region', AmazonLinux]
+      ImageId: !FindInMap [RegionAMIMap, !Ref 'AWS::Region', Ubuntu]
       InstanceType: t2.micro
       SubnetId: !Ref Subnet
       Tags:
