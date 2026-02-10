@@ -19,6 +19,7 @@ Parameters:
   Subnet:
     Type: AWS::EC2::Subnet::Id
     Description: "Subnet to launch the instance in"
+    Default: subnet-6c65f50a
   URL:
     Type: String
     Description: "URL to run the load test against"
