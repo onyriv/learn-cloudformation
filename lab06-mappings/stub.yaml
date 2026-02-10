@@ -57,3 +57,6 @@ Outputs:
   InstanceId:
     Value: !Ref EC2Instance
     Description: ID of virtual server
+  AMIId:
+    Value: !FindInMap [RegionAMIMap, !Ref 'AWS::Region', Ubuntu]
+    Description: AMI ID used for the EC2 instance
