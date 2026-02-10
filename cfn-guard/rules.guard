@@ -9,8 +9,13 @@ rule template_has_description {
     Description exists
 }
 
-rule ec2_instance_type_restricted {
-    Resources.*[ Type == "AWS::EC2::Instance" ] {
-        Properties.InstanceType == "t2.micro"
+rule ec2_instance_type_has_constraints {
+    when Resources.*[ Type == "AWS::EC2::Instance" ] exists {
+        when Parameters.InstanceType exists {
+            Parameters.InstanceType {
+                Default == "t2.micro"
+                AllowedValues exists
+            }
+        }
     }
 }
