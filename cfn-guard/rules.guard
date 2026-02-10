@@ -8,3 +8,9 @@ rule template_has_version {
 rule template_has_description {
     Description exists
 }
+
+rule ec2_instance_type_restricted {
+    Resources.*[ Type == "AWS::EC2::Instance" ] {
+        Properties.InstanceType == "t2.micro"
+    }
+}

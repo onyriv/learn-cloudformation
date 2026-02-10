@@ -1,10 +1,10 @@
 ---
 # TODO: create CloudFormation template to create S3 bucket
-AWSTemplateFormatVersion: "2010-09-09"
-Description: Create a simple S3 bucket for CloudFormation learning.
+AWSTemplateFormatVersion: "2010-09-09"    # Required magic string (never changes)
+Description: Create a simple S3 bucket for CloudFormation learning.   # Optional but our cfn-guard requires it
 
-Resources:
-  LearnCloudFormationBucket:
-    Type: "AWS::S3::Bucket"
-    Properties:
+Resources:                          # Like your resource blocks in .tf files
+  LearnCloudFormationBucket:        # You pick this name (like the TF resource name)
+    Type: "AWS::S3::Bucket"         # Like: resource "aws_s3_bucket"
+    Properties:                      # Like the { ... } block in TF
       BucketName: "learn-cloudformation-onome-orivri"
