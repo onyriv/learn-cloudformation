@@ -72,8 +72,8 @@ jobs:
 
       - name: Install cfn-guard
         run: |
-          curl -sSL https://github.com/aws-cloudformation/cloudformation-guard/releases/latest/download/cfn-guard-v3-ubuntu-latest.tar.gz \
-            | sudo tar -xz -C /usr/local/bin/
+          curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/aws-cloudformation/cloudformation-guard/main/install-guard.sh | sh
+          echo "${HOME}/.guard/bin" >> $GITHUB_PATH
 
       - name: Run cfn-guard
         run: |
