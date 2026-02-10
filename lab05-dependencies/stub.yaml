@@ -4,9 +4,7 @@ Description: EC2 instance with SecurityGroup
 Parameters:
   AMI:
     Description: AMI to start virtual server
-    Type: String
-    MaxLength: 32
-    MinLength: 12
+    Type: AWS::EC2::Image::Id
     Default: ami-0ad50334604831820
   KeyName:
     Description: Key Pair name
