@@ -5,16 +5,19 @@ Parameters:
   KeyName:
     Description: Key Pair name
     Type: AWS::EC2::KeyPair::KeyName
+    Default: alpaca-etf-momentum-v5-key
   VPC:
     Description: VPC to launch virtual server in
     Type: AWS::EC2::VPC::Id
+    Default: vpc-c5862ab8
   Subnet:
     Description: subnet to launch virtual server in
     Type: AWS::EC2::Subnet::Id
+    Default: subnet-6c65f50a
   URL:
     Description: URL for load testing
     Type: String
-    Default: http://widdix.net/
+    Default: http://widdix.net/orivri
 Mappings:
   # Map between regions and AMIs for Ubuntu
   RegionAMIMap:
