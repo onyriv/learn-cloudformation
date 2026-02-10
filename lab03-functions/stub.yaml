@@ -2,10 +2,12 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: "Lab 03 - Using built-in functions Fn::Base64 and Fn::Sub"
 
+# Parameters: Input values provided when creating the stack
 Parameters:
   AMI:
     Type: AWS::EC2::Image::Id
     Description: "Amazon Machine Image ID"
+    Default: ami-0ad50334604831820
   InstanceType:
     Type: String
     Description: "EC2 instance type"
@@ -26,52 +28,29 @@ Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
+      # !Ref function: Returns the value of the specified parameter or resource
+      # Here it retrieves the AMI ID provided by the user
       ImageId: !Ref AMI
+      
+      # !Ref again: Gets the instance type from the parameter above
       InstanceType: !Ref InstanceType
+      
+      # !Ref again: Gets the subnet ID from the parameter
       SubnetId: !Ref Subnet
+      
       Tags:
         - Key: Name
           Value: learn-cloudformation-3-functions
+      
+      # UserData: Script that runs when the EC2 instance first launches
       UserData:
+        # Fn::Base64: Encodes the UserData script in base64 (required by AWS)
         'Fn::Base64': !Sub |
+          # !Sub function: Substitutes variables in the string
+          # Variables like ${URL} are replaced with actual parameter values
+          # The | means multi-line string in YAML
           #!/bin/bash -ex
           yum install -y httpd-tools
+          # ${URL} will be replaced with the URL parameter value (http://widdix.net/)
           ab -n 1000 -c 4 ${URL}
 
-# AWSTemplateFormatVersion: '2010-09-09'
-# Description: EC2 instance with functions
-# Parameters:
-#   AMI:
-#     Description: AMI to start virtual server
-#     Type: String
-#     MaxLength: 12
-#     MinLength: 12
-#   InstanceType:
-#     Description: instance type of virtual server
-#     Type: String
-#     AllowedValues:
-#     - t2.micro
-#     - t2.small
-#     - t2.medium
-#   Subnet:
-#     Description: subnet to launch virtual server in
-#     Type: AWS::EC2::Subnet::Id
-#   URL:
-#     Description: URL for load testing
-#     Type: String
-#     Default: http://widdix.net/
-# Resources:
-#   EC2Instance:
-#     Type: AWS::EC2::Instance
-#     Properties:
-#       ImageId: !Ref AMI
-#       InstanceType: !Ref InstanceType
-#       SubnetId: !Ref Subnet
-#       Tags:
-#       - Key: Name
-#         Value: learn-cloudformation-3-functions
-#       UserData:
-#         TODO multiline string and encode (base64)
-#         #!/bin/bash -ex
-#         yum install -y httpd-tools
-#         ab -n 1000 -c 4 URL
