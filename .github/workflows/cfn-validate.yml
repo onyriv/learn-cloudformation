@@ -10,8 +10,8 @@ on:
 # Which lab to validate — change this as you progress
 # -------------------------------------------------------
 env:
-  CURRENT_LAB: "lab01-simple-template"
-  TEMPLATE_FILE: "lab01-simple-template/stub.yaml"
+  CURRENT_LAB: "lab02-parameters"
+  TEMPLATE_FILE: "lab02-parameters/stub.yaml"
 
 permissions:
   contents: read
