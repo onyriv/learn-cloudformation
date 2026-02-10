@@ -10,7 +10,7 @@ on:
 # Which lab to validate — change this as you progress
 # -------------------------------------------------------
 env:
-  CURRENT_LAB: "lab04-outputs"   # Used for display purposes only
+  CURRENT_LAB: "lab04-outputs"
   TEMPLATE_FILE: "lab04-outputs/stub.yaml"
 
 permissions:

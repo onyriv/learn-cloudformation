@@ -19,3 +19,7 @@ rule ec2_instance_type_has_constraints {
         }
     }
 }
+
+rule template_has_outputs {
+    Outputs exists
+}
