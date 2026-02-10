@@ -4,7 +4,7 @@ Description: "Lab 02 - Using parameters to configure an EC2 instance"
 
 Parameters:
   AMI:
-    Type: String
+    Type: AWS::EC2::Image::Id
     Description: "Amazon Machine Image ID"
   InstanceType:
     Type: String
