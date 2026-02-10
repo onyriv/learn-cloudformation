@@ -8,4 +8,3 @@ Resources:
     Type: "AWS::S3::Bucket"
     Properties:
       BucketName: "learn-cloudformation-onome-orivri"
-
