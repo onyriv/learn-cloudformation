@@ -10,8 +10,8 @@ on:
 # Which lab to validate — change this as you progress
 # -------------------------------------------------------
 env:
-  CURRENT_LAB: "lab07-nested-stacks"
-  TEMPLATE_FILE: "lab07-nested-stacks/stub.yaml"
+  CURRENT_LAB: "lab08-cfn-init"
+  TEMPLATE_FILE: "lab08-cfn-init/stub.yaml"
 
 permissions:
   contents: read
@@ -53,10 +53,6 @@ jobs:
 
       - name: Validate template
         run: |
-          if [[ "${CURRENT_LAB}" == "lab07-nested-stacks" ]]; then
-            echo "::notice::Skipping AWS validation for nested stacks (requires S3 access to external templates)"
-            exit 0
-          fi
           echo "::group::Running aws cloudformation validate-template"
           aws cloudformation validate-template \
             --template-body file://${TEMPLATE_FILE}

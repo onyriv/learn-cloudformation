@@ -5,31 +5,18 @@ Parameters:
   VPC:
     Description: The default VPC
     Type: AWS::EC2::VPC::Id
+    Default: vpc-c5862ab8
   Subnet:
     Description: A public subnet from default VPC.
     Type: AWS::EC2::Subnet::Id
+    Default: subnet-6c65f50a
 Mappings:
   RegionMap:
-    eu-west-1:
-      AMI: ami-bff32ccc
-    ap-southeast-1:
-      AMI: ami-c9b572aa
-    ap-southeast-2:
-      AMI: ami-48d38c2b
-    eu-central-1:
-      AMI: ami-bc5b48d0
-    ap-northeast-2:
-      AMI: ami-249b554a
-    ap-northeast-1:
-      AMI: ami-383c1956
     us-east-1:
-      AMI: ami-60b6c60a
-    sa-east-1:
-      AMI: ami-6817af04
-    us-west-1:
-      AMI: ami-d5ea86b5
-    us-west-2:
-      AMI: ami-f0091d91
+      Ubuntu: ami-0b6c6ebed2801a5cb
+    us-east-2:
+      Ubuntu: ami-06e3c045d79fd65d9
+
 Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
@@ -37,13 +24,24 @@ Resources:
       AWS::CloudFormation::Init:
         config:
           packages:
-            # TODO install httpd with yum
+            # Install Apache2 on Ubuntu using apt package manager
+            apt:
+              apache2: []
           files:
-            # TODO create /var/www/html/index.html containing "<html><body>Hello World!</body></html>"
+            # Create the HTML file for the web server
+            /var/www/html/index.html:
+              content: "<html><body>Hello World!</body></html>"
+              mode: '000644'
+              owner: root
+              group: root
           services:
-            # TODO start httpd with sysvinit
+            # Start and enable Apache2 service
+            sysvinit:
+              apache2:
+                enabled: true
+                ensureRunning: true
     Properties:
-      ImageId: !FindInMap [RegionMap, !Ref 'AWS::Region', AMI]
+      ImageId: !FindInMap [RegionMap, !Ref 'AWS::Region', Ubuntu]
       InstanceType: t2.micro
       NetworkInterfaces:
       - AssociatePublicIpAddress: 'true'
