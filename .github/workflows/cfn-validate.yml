@@ -10,8 +10,8 @@ on:
 # Which lab to validate — change this as you progress
 # -------------------------------------------------------
 env:
-  CURRENT_LAB: "lab08-cfn-init"
-  TEMPLATE_FILE: "lab08-cfn-init/stub.yaml"
+  CURRENT_LAB: "lab09-rolling-update"
+  TEMPLATE_FILE: "lab09-rolling-update/demo.yaml"
 
 permissions:
   contents: read
